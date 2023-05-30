@@ -1,0 +1,36 @@
+@font-face {
+  font-family: "GmarketSansMedium";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Pretendard-Regular";
+  src: url("https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff")
+    format("woff");
+  font-weight: 400;
+  font-style: normal;
+}
+
+.home {
+  display: flex;
+  flex-flow: column nowrap;
+  height: 100px;
+}
+
+.footer {
+  display: flex;
+  flex-flow: column wrap;
+  padding-top: 3rem;
+  background-color: rgb(247, 247, 247);
+  align-items: center;
+  padding-bottom: 2rem;
+
+  font-family: "Pretendard-Regular";
+}
+
+.footer .f-body {
+  width: clamp(750px, 90%, 1150px);
+}
