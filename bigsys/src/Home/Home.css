@@ -14,10 +14,68 @@
   font-style: normal;
 }
 
+.container {
+  font-family: "Pretendard-Regular";
+}
+
 .home {
   display: flex;
   flex-flow: column nowrap;
-  height: 100px;
+  height: 68vh;
+  position: relative;
+}
+
+.home::before {
+  content: "";
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  background-image: url("../../public/bg.avif");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  opacity: 0.2;
+  height: 68vh;
+  width: 100%;
+}
+
+.h-body {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  padding-top: 100px;
+  padding-bottom: 100px;
+  font-family: "Pretendard-Regular";
+  height: 100%;
+}
+
+.h-body h2 {
+  font-size: 50px;
+  font-weight: 700;
+  margin-bottom: 15px;
+  position: relative;
+}
+
+.h-body p {
+  font-size: 20px;
+  position: relative;
+  font-weight: 600;
+}
+
+.h-body p:nth-child(2) {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 50px;
+}
+
+#btn_start {
+  margin-top: 50px;
+  width: 200px;
+  font-family: "Pretendard-Regular" !important;
+  font-weight: 600;
+  border: 2px solid rgb(91, 91, 255);
+  position: relative;
 }
 
 .footer {
@@ -33,4 +91,66 @@
 
 .footer .f-body {
   width: clamp(750px, 90%, 1150px);
+}
+
+.game {
+  display: flex;
+  flex-flow: column nowrap;
+  font-family: "Pretendard-Regular";
+  padding: 50px 0;
+  align-items: center;
+  justify-content: center;
+}
+
+.game h2 {
+  font-size: 30px;
+  font-weight: 600;
+}
+
+.game p:nth-child(2) {
+  color: gray;
+  margin-bottom: 55px;
+  font-size: 18px;
+}
+
+.g-body {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  width: 80%;
+  justify-content: center;
+  align-items: center;
+  row-gap: 60px;
+}
+
+.news_cate {
+  display: flex;
+  flex-flow: column nowrap;
+  border: 2px solid gray;
+  border-radius: 30px;
+  width: 200px;
+  height: 300px;
+  align-self: center;
+  justify-self: center;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0 30px 0;
+  cursor: pointer;
+}
+
+.news_cate:hover {
+  border: 2px solid skyblue;
+}
+
+.news_cate h3 {
+  font-family: "Pretendard-Regular";
+  font-weight: 600;
+  font-size: 23px;
+}
+
+.news_cate p {
+  font-weight: 600;
+  font-size: 18px;
+  color: gray;
+  margin: 0 !important;
+  border-bottom: 2px solid gray;
 }
