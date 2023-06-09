@@ -7,6 +7,7 @@ import { GrFormPreviousLink } from "react-icons/gr";
 import { Suspense } from "react";
 import Spinner from "react-bootstrap/esm/Spinner";
 import axios from "axios";
+import Button from "react-bootstrap/Button";
 
 export const Play = () => {
   const path = window.location.pathname.split("/");
@@ -18,11 +19,7 @@ export const Play = () => {
 
   const solve = (e) => {
     setLevel((level += 1));
-    if (e === 1) {
-      setAnswer(answer.concat(1));
-    } else {
-      setAnswer(answer.concat(2));
-    }
+    setAnswer(answer.concat(e));
   };
 
   const getSub = (e) => {
@@ -212,8 +209,21 @@ const OneToThree = ({ resource, solve }) => {
   );
 };
 
-const FourToSix = ({ answer, pick, level }) => {
-  return <></>;
+const FourToSix = (props) => {
+  var [tmpAns, setTmpAns] = useState([]);
+  return (
+    <div className="fourTosix">
+      <h3>제목 : Title</h3>
+      <p>기사</p>
+      <Button
+        variant="outline-primary"
+        id="btn_next"
+        onClick={() => props.solve(tmpAns)}
+      >
+        다음
+      </Button>
+    </div>
+  );
 };
 
 function wrapPromise(promise) {

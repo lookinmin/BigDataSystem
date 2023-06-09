@@ -417,3 +417,29 @@
   font-weight: 500 !important;
   font-size: 16px !important;
 }
+
+.fourTosix {
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+.fourTosix h3 {
+  font-weight: 600;
+}
+
+#btn_next {
+  font-weight: 600;
+  width: 200px;
+  font-family: "Pretendard-Regular" !important;
+  border: 2px solid rgb(91, 91, 255);
+  align-self: center;
+  margin-top: 100px;
+}
+
+.search {
+  display: flex;
+  flex-flow: column nowrap;
+  min-height: 68vh;
+  align-items: center;
+  justify-content: center;
+}
