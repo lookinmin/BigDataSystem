@@ -1,6 +1,5 @@
 from fastapi import APIRouter
 from pymongo import MongoClient
-import pprint
 
 router = APIRouter(prefix="/part2/strangeSentence")
 
