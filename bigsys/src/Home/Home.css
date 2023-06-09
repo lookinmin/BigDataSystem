@@ -234,27 +234,35 @@
 .pattern {
   display: flex;
   flex-flow: column nowrap;
-  position: fixed;
-  top: 56px;
-  padding-top: 24px;
-  left: 50px;
+
   align-items: flex-start;
 }
 
 .pattern h4 {
   font-weight: 600;
   align-self: center;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
+}
+
+.pattern h6 {
+  align-self: center;
+}
+
+.pattern h6:nth-child(3) {
+  margin-bottom: 100px;
 }
 
 .pattern p {
   color: gray;
+  font-size: 17px !important;
+  font-weight: 500 !important;
+  padding-left: 70px;
 }
 
 .pattern p:hover {
   text-decoration: underline;
   cursor: pointer;
-  font-weight: 600;
+  font-weight: 600 !important;
   color: black;
 }
 
@@ -345,6 +353,7 @@
   width: 80%;
   grid-template-columns: repeat(2, 1fr);
   column-gap: 2vw;
+  margin-bottom: 5rem;
 }
 
 .result h2 {
@@ -359,12 +368,12 @@
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .leftbox .heads {
   display: grid;
-  width: 60%;
+  width: 65%;
   grid-template-columns: repeat(4, 1fr);
   font-weight: 600;
   border-bottom: 2px solid lightgray;
@@ -373,4 +382,38 @@
 .heads p {
   margin: 0 !important;
   padding-bottom: 10px;
+}
+
+.res-body .rightbox {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: flex-start;
+  width: 65%;
+  justify-self: center;
+}
+
+.rightbox p:nth-child(1) {
+  font-size: 20px;
+  font-weight: 600;
+  align-self: center;
+  margin-bottom: 20px !important;
+}
+
+.rightbox p {
+  margin: 0 !important;
+  padding-bottom: 20px;
+}
+
+#btn_end {
+  font-weight: 600;
+  width: 200px;
+  font-family: "Pretendard-Regular" !important;
+  border: 2px solid rgb(91, 91, 255);
+  position: relative;
+  margin-top: 50px;
+}
+
+.desc {
+  font-weight: 500 !important;
+  font-size: 16px !important;
 }
