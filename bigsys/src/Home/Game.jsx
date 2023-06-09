@@ -22,8 +22,8 @@ export const Game = () => {
 
   var [choose, setChoose] = useState(0);
 
-  const goPlay = (e) => {
-    navigate(`/play/${e}`);
+  const goPlay = (e1, e2) => {
+    navigate(`/play/${e1}/${e2}`);
   };
 
   const moveDown = (e) => {
@@ -130,13 +130,13 @@ export const Game = () => {
             <h2>Choose Difficulty</h2>
             <p>난이도를 선택하세요</p>
             <div className="diffBox">
-              <div className="box" onClick={() => goPlay(choose)}>
+              <div className="box" onClick={() => goPlay(choose, 3)}>
                 HARD
               </div>
-              <div className="box" onClick={() => goPlay(choose)}>
+              <div className="box" onClick={() => goPlay(choose, 2)}>
                 NORMAL
               </div>
-              <div className="box" onClick={() => goPlay(choose)}>
+              <div className="box" onClick={() => goPlay(choose, 1)}>
                 EASY
               </div>
             </div>

@@ -4,8 +4,13 @@ import { Footer } from "./Footer";
 import "./Home.css";
 import { FaTimes, FaRegCircle } from "react-icons/fa";
 import { GrFormPreviousLink } from "react-icons/gr";
+import { Suspense } from "react";
+import Spinner from "react-bootstrap/esm/Spinner";
+import axios from "axios";
 
 export const Play = () => {
+  const path = window.location.pathname.split("/");
+  console.log(path);
   var [level, setLevel] = useState(0);
   var [subC, setSubC] = useState(0);
   var [pick, setPick] = useState("ALL");
@@ -85,7 +90,14 @@ export const Play = () => {
           )}
 
           {level < 3 ? (
-            <OneToThree solve={solve} />
+            <Suspense fallback={<Spinner />}>
+              <OneToThree
+                resource={fetchTask(
+                  `http://127.0.0.1:8000/part1/ox?category=${path[2]}&level=${path[3]}`
+                )}
+                solve={solve}
+              />
+            </Suspense>
           ) : level == 3 ? (
             <div className="pattern">
               <h4>Sub Category</h4>
@@ -119,17 +131,79 @@ export const Play = () => {
   );
 };
 
-const OneToThree = (props) => {
+const OneToThree = ({ resource, solve }) => {
+  var data = resource.read();
+  console.log(data);
   return (
     <>
-      <p>제목 : 대흉근과 대원근</p>
-      <div className="news-inner">내용</div>
+      <p>제목 : {data[0].task.labeledDataInfo.newTitle}</p>
+      <div className="news-inner">
+        {data[0].task.sourceDataInfo.newsContent}
+      </div>
       <div className="OX">
-        <div className="O" onClick={() => props.solve(1)}>
+        <div
+          className="O"
+          onClick={() => {
+            solve(1);
+          }}
+        >
           <FaRegCircle size={60} color="lightgreen" />
           <p>진짜 제목</p>
         </div>
-        <div className="X" onClick={() => props.solve(2)}>
+        <div
+          className="X"
+          onClick={() => {
+            solve(2);
+          }}
+        >
+          <FaTimes size={64} color="red" />
+          <p>가짜 제목</p>
+        </div>
+      </div>
+      <p>제목 : {data[1].task.labeledDataInfo.newTitle}</p>
+      <div className="news-inner">
+        {data[1].task.sourceDataInfo.newsContent}
+      </div>
+      <div className="OX">
+        <div
+          className="O"
+          onClick={() => {
+            solve(1);
+          }}
+        >
+          <FaRegCircle size={60} color="lightgreen" />
+          <p>진짜 제목</p>
+        </div>
+        <div
+          className="X"
+          onClick={() => {
+            solve(2);
+          }}
+        >
+          <FaTimes size={64} color="red" />
+          <p>가짜 제목</p>
+        </div>
+      </div>
+      <p>제목 : {data[2].task.labeledDataInfo.newTitle}</p>
+      <div className="news-inner">
+        {data[2].task.sourceDataInfo.newsContent}
+      </div>
+      <div className="OX">
+        <div
+          className="O"
+          onClick={() => {
+            solve(1);
+          }}
+        >
+          <FaRegCircle size={60} color="lightgreen" />
+          <p>진짜 제목</p>
+        </div>
+        <div
+          className="X"
+          onClick={() => {
+            solve(2);
+          }}
+        >
           <FaTimes size={64} color="red" />
           <p>가짜 제목</p>
         </div>
@@ -141,3 +215,46 @@ const OneToThree = (props) => {
 const FourToSix = ({ answer, pick, level }) => {
   return <></>;
 };
+
+function wrapPromise(promise) {
+  let status = "pending";
+  let response;
+
+  const suspender = promise.then(
+    (res) => {
+      status = "success";
+      response = res;
+    },
+    (err) => {
+      status = "error";
+      response = err;
+    }
+  );
+
+  const handler = {
+    pending: () => {
+      throw suspender;
+    },
+    error: () => {
+      throw response;
+    },
+    default: () => response,
+  };
+
+  const read = () => {
+    const result = handler[status] ? handler[status]() : handler.default();
+    return result;
+  };
+
+  return { read };
+}
+function fetchTask(url, header = null) {
+  let promise = null;
+  if (header == null) {
+    promise = axios.get(url).then(({ data }) => data);
+  } else {
+    promise = axios.get(url, header).then(({ data }) => data);
+  }
+
+  return wrapPromise(promise);
+}
