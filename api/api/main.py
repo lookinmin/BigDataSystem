@@ -1,7 +1,6 @@
 from fastapi import FastAPI
+from part1 import OX
 
 app = FastAPI()
 
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
+app.include_router(OX.router)
