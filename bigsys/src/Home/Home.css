@@ -161,7 +161,7 @@
   display: flex;
   flex-flow: column nowrap;
   font-family: "Pretendard-Regular";
-  padding: 70px 0;
+  padding: 40px 0;
   align-items: center;
   min-height: 68vh;
 }
@@ -174,12 +174,23 @@
 .play-content h2 {
   font-size: 40px;
   font-weight: 600;
-  margin-bottom: 100px;
 }
 
 .play-content p:nth-child(2) {
+  color: gray;
+  margin-bottom: 60px;
+}
+
+.play-content p:nth-child(3) {
   font-size: 25px;
-  margin-bottom: 150px;
+  font-weight: 600;
+  margin-bottom: 60px;
+}
+
+.play-content .news-inner {
+  max-width: 650px;
+  align-self: center;
+  margin-bottom: 100px;
 }
 
 .OX {
@@ -190,9 +201,17 @@
   align-items: center;
 }
 
+.OX p {
+  margin-bottom: 0 !important;
+  margin-top: 10px;
+  font-family: "Pretendard-Regular";
+}
+
 .OX .O {
+  display: flex;
+  flex-flow: column nowrap;
   border: 2px solid lightgreen;
-  padding: 25px 100px;
+  padding: 15px 80px;
   border-radius: 40px;
   cursor: pointer;
 }
@@ -203,13 +222,40 @@
 
 .OX .X {
   border: 2px solid red;
-  padding: 25px 100px;
+  padding: 15px 80px;
   border-radius: 40px;
   cursor: pointer;
 }
 
 .OX .X:hover {
   background-color: rgb(255, 229, 229);
+}
+
+.pattern {
+  display: flex;
+  flex-flow: column nowrap;
+  position: fixed;
+  top: 56px;
+  padding-top: 24px;
+  left: 50px;
+  align-items: flex-start;
+}
+
+.pattern h4 {
+  font-weight: 600;
+  align-self: center;
+  margin-bottom: 30px;
+}
+
+.pattern p {
+  color: gray;
+}
+
+.pattern p:hover {
+  text-decoration: underline;
+  cursor: pointer;
+  font-weight: 600;
+  color: black;
 }
 
 #diff {
@@ -271,4 +317,60 @@
 
 .box:nth-child(3):hover {
   background-color: rgb(218, 255, 232);
+}
+
+#back {
+  position: fixed;
+  top: 80px;
+  right: 50px;
+  cursor: pointer;
+  color: gray;
+}
+
+#back:hover {
+  color: black;
+}
+
+.result {
+  display: flex;
+  flex-flow: column nowrap;
+  font-family: "Pretendard-Regular";
+  padding: 40px 0;
+  align-items: center;
+  min-height: 68vh;
+}
+
+.res-body {
+  display: grid;
+  width: 80%;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 2vw;
+}
+
+.result h2 {
+  font-weight: 600;
+}
+
+.result p:nth-child(2) {
+  margin-bottom: 40px;
+}
+
+.res-body .leftbox {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.leftbox .heads {
+  display: grid;
+  width: 60%;
+  grid-template-columns: repeat(4, 1fr);
+  font-weight: 600;
+  border-bottom: 2px solid lightgray;
+}
+
+.heads p {
+  margin: 0 !important;
+  padding-bottom: 10px;
 }
