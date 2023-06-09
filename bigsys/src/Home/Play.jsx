@@ -11,8 +11,6 @@ export const Play = () => {
   var [pick, setPick] = useState("ALL");
   var [answer, setAnswer] = useState([]);
 
-  console.log(answer);
-
   const solve = (e) => {
     setLevel((level += 1));
     if (e === 1) {
@@ -63,8 +61,6 @@ export const Play = () => {
                 <>
                   <h2>STAGE {level + 1}</h2>
                   <p>해당 기사의 제목이 진짜 제목인지 아닌지 맞춰주세요.</p>
-                  <p>제목 : 대흉근과 대원근</p>
-                  <div className="news-inner">내용</div>
                 </>
               ) : (
                 <>
@@ -89,16 +85,7 @@ export const Play = () => {
           )}
 
           {level < 3 ? (
-            <div className="OX">
-              <div className="O" onClick={() => solve(1)}>
-                <FaRegCircle size={60} color="lightgreen" />
-                <p>진짜 제목</p>
-              </div>
-              <div className="X" onClick={() => solve(2)}>
-                <FaTimes size={64} color="red" />
-                <p>가짜 제목</p>
-              </div>
-            </div>
+            <OneToThree solve={solve} />
           ) : level == 3 ? (
             <div className="pattern">
               <h4>Sub Category</h4>
@@ -128,6 +115,25 @@ export const Play = () => {
         )}
       </div>
       <Footer />
+    </>
+  );
+};
+
+const OneToThree = (props) => {
+  return (
+    <>
+      <p>제목 : 대흉근과 대원근</p>
+      <div className="news-inner">내용</div>
+      <div className="OX">
+        <div className="O" onClick={() => props.solve(1)}>
+          <FaRegCircle size={60} color="lightgreen" />
+          <p>진짜 제목</p>
+        </div>
+        <div className="X" onClick={() => props.solve(2)}>
+          <FaTimes size={64} color="red" />
+          <p>가짜 제목</p>
+        </div>
+      </div>
     </>
   );
 };
