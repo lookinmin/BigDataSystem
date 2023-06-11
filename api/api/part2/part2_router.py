@@ -52,7 +52,7 @@ async def pattern(category: int, level: int):
 
     temp_level = ""
     if level == 1:
-        temp_level = "하"
+        temp_level = "중"
     elif level == 2:
         temp_level = "중"
     elif level == 3:
