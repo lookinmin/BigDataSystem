@@ -82,13 +82,33 @@ export const Play = () => {
                       </Suspense>
                     </>
                   ) : level < 9 ? (
-                    <p className="desc">
-                      자동생성, 비일관성을 가진 <b>이상한 문장</b> 찾기
-                    </p>
+                    <>
+                      <p className="desc">
+                        자동생성, 비일관성을 가진 <b>이상한 문장</b> 찾기
+                      </p>
+                      <Suspense fallback={<Spinner />}>
+                        <SevenToEight
+                          resource={fetchTask(
+                            `http://127.0.0.1:8000/part1/strangeSentence?category=${path[2]}&level=${path[3]}&pattern=${pick}`
+                          )}
+                          solve={solve}
+                        />
+                      </Suspense>
+                    </>
                   ) : (
-                    <p className="desc">
-                      직접 생성된 이상한 문장들의 <b>생성패턴</b> 찾기
-                    </p>
+                    <>
+                      <p className="desc">
+                        직접 생성된 이상한 문장들의 <b>생성패턴</b> 찾기
+                      </p>
+                      <Suspense fallback={<Spinner />}>
+                        <NineToTen
+                          resource={fetchTask(
+                            `http://127.0.0.1:8000/part2/pattern?category=${path[2]}&level=${path[3]}&pattern=${pick}`
+                          )}
+                          solve={solve}
+                        />
+                      </Suspense>
+                    </>
                   )}
                 </>
               )}
