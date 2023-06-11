@@ -6,7 +6,7 @@ import { FaTimes, FaRegCircle } from "react-icons/fa";
 import { GrFormPreviousLink } from "react-icons/gr";
 import { Suspense } from "react";
 import Spinner from "react-bootstrap/esm/Spinner";
-import axios from "axios";
+import fetchTask from "../api/fetchTask";
 import Button from "react-bootstrap/Button";
 
 export const Play = () => {
@@ -18,7 +18,6 @@ export const Play = () => {
   var [answer, setAnswer] = useState([]);
 
   const solve = (e) => {
-    setLevel((level += 1));
     setAnswer(answer.concat(e));
   };
 
@@ -130,10 +129,15 @@ export const Play = () => {
 
 const OneToThree = ({ resource, solve }) => {
   var data = resource.read();
+  const [tempAnswer, setTempAnswer] = useState([0, 0, 0]);
   console.log(data);
   return (
     <>
-      <p>제목 : {data[0].task.labeledDataInfo.newTitle}</p>
+      <div className="news-title">
+        <p>
+          <span>문제 1. </span> 제목 : {data[0].task.labeledDataInfo.newTitle}
+        </p>
+      </div>
       <div className="news-inner">
         {data[0].task.sourceDataInfo.newsContent}
       </div>
@@ -141,7 +145,9 @@ const OneToThree = ({ resource, solve }) => {
         <div
           className="O"
           onClick={() => {
-            solve(1);
+            var ansCopy = tempAnswer;
+            ansCopy[0] = 1;
+            setTempAnswer(ansCopy);
           }}
         >
           <FaRegCircle size={60} color="lightgreen" />
@@ -150,14 +156,20 @@ const OneToThree = ({ resource, solve }) => {
         <div
           className="X"
           onClick={() => {
-            solve(2);
+            var ansCopy = tempAnswer;
+            ansCopy[0] = 2;
+            setTempAnswer(ansCopy);
           }}
         >
           <FaTimes size={64} color="red" />
           <p>가짜 제목</p>
         </div>
       </div>
-      <p>제목 : {data[1].task.labeledDataInfo.newTitle}</p>
+      <div className="news-title">
+        <p>
+          <span>문제 2. </span>제목 : {data[1].task.labeledDataInfo.newTitle}
+        </p>
+      </div>
       <div className="news-inner">
         {data[1].task.sourceDataInfo.newsContent}
       </div>
@@ -165,7 +177,9 @@ const OneToThree = ({ resource, solve }) => {
         <div
           className="O"
           onClick={() => {
-            solve(1);
+            var ansCopy = tempAnswer;
+            ansCopy[1] = 1;
+            setTempAnswer(ansCopy);
           }}
         >
           <FaRegCircle size={60} color="lightgreen" />
@@ -174,14 +188,20 @@ const OneToThree = ({ resource, solve }) => {
         <div
           className="X"
           onClick={() => {
-            solve(2);
+            var ansCopy = tempAnswer;
+            ansCopy[1] = 2;
+            setTempAnswer(ansCopy);
           }}
         >
           <FaTimes size={64} color="red" />
           <p>가짜 제목</p>
         </div>
       </div>
-      <p>제목 : {data[2].task.labeledDataInfo.newTitle}</p>
+      <div className="news-title">
+        <p>
+          <span>문제 3. </span>제목 : {data[2].task.labeledDataInfo.newTitle}
+        </p>
+      </div>
       <div className="news-inner">
         {data[2].task.sourceDataInfo.newsContent}
       </div>
@@ -189,7 +209,9 @@ const OneToThree = ({ resource, solve }) => {
         <div
           className="O"
           onClick={() => {
-            solve(1);
+            var ansCopy = tempAnswer;
+            ansCopy[2] = 1;
+            setTempAnswer(ansCopy);
           }}
         >
           <FaRegCircle size={60} color="lightgreen" />
@@ -198,7 +220,10 @@ const OneToThree = ({ resource, solve }) => {
         <div
           className="X"
           onClick={() => {
-            solve(2);
+            var ansCopy = tempAnswer;
+            ansCopy[2] = 2;
+            console.log(ansCopy);
+            setTempAnswer(ansCopy);
           }}
         >
           <FaTimes size={64} color="red" />
@@ -225,46 +250,3 @@ const FourToSix = (props) => {
     </div>
   );
 };
-
-function wrapPromise(promise) {
-  let status = "pending";
-  let response;
-
-  const suspender = promise.then(
-    (res) => {
-      status = "success";
-      response = res;
-    },
-    (err) => {
-      status = "error";
-      response = err;
-    }
-  );
-
-  const handler = {
-    pending: () => {
-      throw suspender;
-    },
-    error: () => {
-      throw response;
-    },
-    default: () => response,
-  };
-
-  const read = () => {
-    const result = handler[status] ? handler[status]() : handler.default();
-    return result;
-  };
-
-  return { read };
-}
-function fetchTask(url, header = null) {
-  let promise = null;
-  if (header == null) {
-    promise = axios.get(url).then(({ data }) => data);
-  } else {
-    promise = axios.get(url, header).then(({ data }) => data);
-  }
-
-  return wrapPromise(promise);
-}
