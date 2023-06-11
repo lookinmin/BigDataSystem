@@ -426,9 +426,32 @@
 .fourTosix {
   display: flex;
   flex-flow: column nowrap;
+  max-width: 800px;
+  margin-top: 80px;
+  border-bottom: 1px solid lightgray;
+  padding-bottom: 30px;
+  align-items: flex-start;
 }
 
 .fourTosix h3 {
+  font-weight: 600;
+  align-self: center;
+  margin-bottom: 30px;
+}
+
+.fourTosix p{
+  margin: 0 !important;
+  color: black !important;
+  padding-bottom: 15px;
+}
+
+.news-by{
+  cursor: pointer;
+  text-align: left;
+}
+
+.news-by:hover{
+  text-decoration: underline;
   font-weight: 600;
 }
 
@@ -529,3 +552,4 @@
   border: 1px solid red;
   background-color: rgb(255, 232, 232);
 }
+

@@ -64,9 +64,9 @@ def read_ox_task(category:str, level:str, keyword=None):
 
     return return_data
 
-def read_find_title_task(category:str, level:str, process_pattern:int=None):
+def read_find_title_task(category:str, level:str, process_pattern:int):
     query=[]
-    if process_pattern:
+    if process_pattern>10:
         query=[
             {
                 '$match': {

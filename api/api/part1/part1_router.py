@@ -32,7 +32,7 @@ async def ox(category:int,level:int):
 
 
 @router.get("/find-title")
-async def find_title(category:int,level:int,pattern=None):
+async def find_title(category:int,level:int,pattern:int):
     temp_category=""
     if category==1:
         temp_category="경제"

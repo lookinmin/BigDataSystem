@@ -12,7 +12,7 @@ import Button from "react-bootstrap/Button";
 export const Play = () => {
   const path = window.location.pathname.split("/");
   console.log(path);
-  var [level, setLevel] = useState(0);
+  var [level, setLevel] = useState(3);
   var [subC, setSubC] = useState(0);
   var [pick, setPick] = useState("ALL");
   var [answer, setAnswer] = useState([]);
@@ -26,25 +26,25 @@ export const Play = () => {
     setLevel((level += 1));
     switch (e) {
       case 1:
-        setPick("ALL");
+        setPick(-1);
         break;
       case 2:
-        setPick("부호를 통한 의문 유발형");
+        setPick(11);
         break;
       case 3:
-        setPick("은닉을 통한 의문 유발형");
+        setPick(12);
         break;
       case 4:
-        setPick("선정표현 사용형");
+        setPick(13);
         break;
       case 5:
-        setPick("속어/줄임말 사용형");
+        setPick(14);
         break;
       case 6:
-        setPick("사실 과대 표현형");
+        setPick(15);
         break;
       case 7:
-        setPick("의도적 주어 왜곡형");
+        setPick(16);
         break;
     }
   };
@@ -68,9 +68,19 @@ export const Play = () => {
                   <h2>STAGE {level}</h2>
                   <p style={{ marginBottom: "15px" }}>선택 유형 : {pick}</p>
                   {(level >= 4 && level) <= 6 ? (
-                    <p className="desc">
-                      문제 : 해당 기사 제목을 만든 <b>기조 문장</b> 찾기
-                    </p>
+                    <>
+                      <p className="desc">
+                        문제 : 해당 기사 제목을 만든 <b>기조 문장</b> 찾기
+                      </p>
+                      <Suspense fallback={<Spinner />}>
+                        <FourToSix
+                          resource={fetchTask(
+                            `http://127.0.0.1:8000/part1/find-title?category=${path[2]}&level=${path[3]}&pattern=${pick}`
+                          )}
+                          solve={solve}
+                        />
+                      </Suspense>
+                    </>
                   ) : level < 9 ? (
                     <p className="desc">
                       자동생성, 비일관성을 가진 <b>이상한 문장</b> 찾기
@@ -245,20 +255,48 @@ const OneToThree = ({ resource, solve }) => {
   );
 };
 
-const FourToSix = (props) => {
-  var [tmpAns, setTmpAns] = useState([]);
+const FourToSix = ({ resource, solve }) => {
+  const [tempAnswer, setTempAnswer] = useState([[], [], []]);
+  var data = resource.read();
+  console.log(data);
+
+  var [textD, setTextD] = useState(false);
+
+  const sencence = (e, taskIdx) => (
+    <p
+      className="news-by"
+      id={e.sentenceNo}
+      key={e.sentenceNo}
+      onClick={(target) => {
+        var ansCopy = [...tempAnswer];
+        var delIdx = ansCopy[taskIdx].indexOf(target.target.id);
+        if (delIdx != -1) {
+          delete ansCopy[taskIdx][delIdx];
+        } else {
+          ansCopy[taskIdx].push(target.target.id);
+        }
+        setTextD(!textD);
+        setTempAnswer(ansCopy);
+        console.log(tempAnswer);
+      }}
+      style={
+        textD
+          ? { textDecoration: "underline", fontWeight: 600 }
+          : { textDecoration: "none", fontWeight: 500 }
+      }
+    >
+      {e.sentenceContent}
+    </p>
+  );
   return (
-    <div className="fourTosix">
-      <h3>제목 : Title</h3>
-      <p>기사</p>
-      <Button
-        variant="outline-primary"
-        id="btn_next"
-        onClick={() => props.solve(tmpAns)}
-      >
-        다음
-      </Button>
-    </div>
+    <>
+      {data.map((e, idx) => (
+        <div className="fourTosix" key={idx}>
+          <h3>제목 : {e.task.newTitle}</h3>
+          {e.task.sourceDataInfo.sentenceInfo.map((val) => sencence(val, idx))}
+        </div>
+      ))}
+    </>
   );
 };
 
