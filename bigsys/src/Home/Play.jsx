@@ -302,50 +302,180 @@ const FourToSix = ({ resource, solve }) => {
 
 const SevenToEight = ({ resource, solve }) => {
   var data = resource.read();
+  const [tempAnswer, setTempAnswer] = useState([]);
   console.log(data);
 
   var first_choicePassage = data[0].task.choicePassage.map((e) => (
-    <div
-      className="news-selection"
-      onClick={() => {
-        solve(e.sentenceNo);
-      }}
-    >
-      {e.sentenceContent}
+    <div className="news-selection">
+      <input
+        type="checkbox"
+        onClick={() => {
+          var clickAnswer = e.sentenceNo;
+          setTempAnswer([...tempAnswer, clickAnswer]);
+        }}
+      />
+      <p style={{ margin: "0" }}>{e.sentenceContent}</p>
     </div>
   ));
+
   var second_choicePassage = data[1].task.choicePassage.map((e) => (
-    <div
-      className="news-selection"
-      onClick={() => {
-        solve(e.sentenceNo);
-      }}
-    >
-      {e.sentenceContent}
+    <div className="news-selection">
+      <input
+        type="checkbox"
+        onClick={() => {
+          var clickAnswer = e.sentenceNo;
+          setTempAnswer([...tempAnswer, clickAnswer]);
+        }}
+      />
+      <p style={{ margin: "0" }}>{e.sentenceContent}</p>
     </div>
   ));
 
   return (
     <>
-      <p>제목 : {data[0].task.newsTitle}</p>
-      {first_choicePassage}
-      <p
-        onClick={() => {
-          solve(0);
-        }}
-      >
-        없음
-      </p>
+      <div className="news">
+        <p className="news-title">제목 : {data[0].task.newsTitle}</p>
+        <div className="news-inner">
+          {first_choicePassage}
+          <div className="news-selection">
+            <input
+              type="checkbox"
+              onClick={() => {
+                var ansCopy = tempAnswer;
+                ansCopy[0] = -1;
+                setTempAnswer(ansCopy);
+              }}
+            />
+            <p style={{ margin: "0" }}>없음</p>
+          </div>
+        </div>
+      </div>
 
-      <p>제목 : {data[1].task.newsTitle}</p>
-      {second_choicePassage}
-      <p
-        onClick={() => {
-          solve(0);
-        }}
-      >
-        없음
-      </p>
+      <div className="news">
+        <p className="news-title">제목 : {data[1].task.newsTitle}</p>
+        <div className="news-inner">
+          {second_choicePassage}
+          <div className="news-selection">
+            <input
+              type="checkbox"
+              onClick={() => {
+                var ansCopy = tempAnswer;
+                ansCopy[0] = -1;
+                setTempAnswer(ansCopy);
+              }}
+            />
+            <p style={{ margin: "0" }}>없음</p>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+
+const NineToTen = ({ resource, solve }) => {
+  var data = resource.read();
+  const [tempAnswer, setTempAnswer] = useState([0, 0]);
+  console.log(data);
+
+  return (
+    <>
+      <div className="news">
+        <p className="news-title">제목 : {data[0].task.newsTitle}</p>
+        <p className="news-inner">{data[0].task.newsContent}</p>
+        <div className="news-selection">
+          <input
+            type="checkbox"
+            onClick={() => {
+              var ansCopy = tempAnswer;
+              ansCopy[0] = 1;
+              setTempAnswer(ansCopy);
+            }}
+          />
+          <p style={{ margin: "0" }}>21.상품 판매정보 노출 광고형</p>
+        </div>
+        <div className="news-selection">
+          <input
+            type="checkbox"
+            onClick={() => {
+              var ansCopy = tempAnswer;
+              ansCopy[0] = 2;
+              setTempAnswer(ansCopy);
+            }}
+          />
+          <p style={{ margin: "0" }}>22.부동산 판매정보 노출 광고형</p>
+        </div>
+        <div className="news-selection">
+          <input
+            type="checkbox"
+            onClick={() => {
+              var ansCopy = tempAnswer;
+              ansCopy[0] = 3;
+              setTempAnswer(ansCopy);
+            }}
+          />
+          <p style={{ margin: "0" }}>23.서비스 판매정보 노출 광고형</p>
+        </div>
+        <div className="news-selection">
+          <input
+            type="checkbox"
+            onClick={() => {
+              var ansCopy = tempAnswer;
+              ansCopy[0] = 4;
+              setTempAnswer(ansCopy);
+            }}
+          />
+          <p style={{ margin: "0" }}>24. 의도적 상황 왜곡/전환형</p>
+        </div>
+      </div>
+
+      <div className="news">
+        <p className="news-title">제목 : {data[1].task.newsTitle}</p>
+        <p className="news-inner">{data[1].task.newsContent}</p>
+        <div className="news-selection">
+          <input
+            type="checkbox"
+            onClick={() => {
+              var ansCopy = tempAnswer;
+              ansCopy[1] = 1;
+              setTempAnswer(ansCopy);
+            }}
+          />
+          <p style={{ margin: "0" }}>21.상품 판매정보 노출 광고형</p>
+        </div>
+        <div className="news-selection">
+          <input
+            type="checkbox"
+            onClick={() => {
+              var ansCopy = tempAnswer;
+              ansCopy[1] = 2;
+              setTempAnswer(ansCopy);
+            }}
+          />
+          <p style={{ margin: "0" }}>22.부동산 판매정보 노출 광고형</p>
+        </div>
+        <div className="news-selection">
+          <input
+            type="checkbox"
+            onClick={() => {
+              var ansCopy = tempAnswer;
+              ansCopy[1] = 3;
+              setTempAnswer(ansCopy);
+            }}
+          />
+          <p style={{ margin: "0" }}>23.서비스 판매정보 노출 광고형</p>
+        </div>
+        <div className="news-selection">
+          <input
+            type="checkbox"
+            onClick={() => {
+              var ansCopy = tempAnswer;
+              ansCopy[1] = 4;
+              setTempAnswer(ansCopy);
+            }}
+          />
+          <p style={{ margin: "0" }}>24. 의도적 상황 왜곡/전환형</p>
+        </div>
+      </div>
     </>
   );
 };
