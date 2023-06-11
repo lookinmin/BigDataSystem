@@ -27,7 +27,7 @@
 
 #two {
   height: 500px;
-  margin-bottom: 50px;
+  margin-bottom: 100px;
 }
 
 #two .twobox {
@@ -62,4 +62,10 @@
   gap: 5px;
   align-items: center;
   padding-bottom: 20px;
+}
+
+.query {
+  display: grid;
+  width: 70%;
+  grid-template-columns: repeat(2, 1fr);
 }

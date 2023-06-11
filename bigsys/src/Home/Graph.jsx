@@ -72,46 +72,46 @@ export const Graph = () => {
 const BarGraph = () => {
   const data = [
     {
-      name: "Page A",
-      uv: 4000,
-      pv: 2400,
-      amt: 2400,
+      name: "IT & 과학",
+      high: 308,
+      mid: 2053,
+      low: 83224,
     },
     {
-      name: "Page B",
-      uv: 3000,
-      pv: 1398,
-      amt: 2210,
+      name: "경제",
+      high: 585,
+      mid: 2050,
+      low: 85756,
     },
     {
-      name: "Page C",
-      uv: 2000,
-      pv: 9800,
-      amt: 2290,
+      name: "사회",
+      high: 479,
+      mid: 2830,
+      low: 118673,
     },
     {
-      name: "Page D",
-      uv: 2780,
-      pv: 3908,
-      amt: 2000,
+      name: "생활 & 문화",
+      high: 269,
+      mid: 1375,
+      low: 66068,
     },
     {
-      name: "Page E",
-      uv: 1890,
-      pv: 4800,
-      amt: 2181,
+      name: "세계",
+      high: 689,
+      mid: 2121,
+      low: 92543,
     },
     {
-      name: "Page F",
-      uv: 2390,
-      pv: 3800,
-      amt: 2500,
+      name: "연예",
+      high: 902,
+      mid: 1269,
+      low: 74531,
     },
     {
-      name: "Page G",
-      uv: 3490,
-      pv: 4300,
-      amt: 2100,
+      name: "정치",
+      high: 585,
+      mid: 1632,
+      low: 81994,
     },
   ];
 
@@ -133,9 +133,9 @@ const BarGraph = () => {
         <YAxis />
         <Tooltip />
         <Legend />
-        <Bar dataKey="pv" fill="#8884d8" />
-        <Bar dataKey="uv" fill="#82ca9d" />
-        <Bar dataKey="pv" fill="#8884d8" />
+        <Bar dataKey="high" fill="red" />
+        <Bar dataKey="mid" fill="#82ca9d" />
+        <Bar dataKey="low" fill="#8884d8" />
       </BarChart>
     </ResponsiveContainer>
   );

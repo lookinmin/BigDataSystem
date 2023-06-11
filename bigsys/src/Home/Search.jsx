@@ -63,7 +63,12 @@ const SearchBar = ({ search }) => {
         />
       </InputGroup>
 
-      <IoSearch size={40} color="skyblue" onClick={() => onSearchHandler()} />
+      <IoSearch
+        size={40}
+        color="skyblue"
+        onClick={() => onSearchHandler()}
+        style={{ cursor: "pointer" }}
+      />
     </div>
   );
 };
