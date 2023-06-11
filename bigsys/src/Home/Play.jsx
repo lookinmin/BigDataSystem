@@ -12,7 +12,7 @@ import Button from "react-bootstrap/Button";
 export const Play = () => {
   const path = window.location.pathname.split("/");
   console.log(path);
-  var [level, setLevel] = useState(3);
+  var [level, setLevel] = useState(9);
   var [subC, setSubC] = useState(0);
   var [pick, setPick] = useState("ALL");
   var [answer, setAnswer] = useState([]);
@@ -89,7 +89,7 @@ export const Play = () => {
                       <Suspense fallback={<Spinner />}>
                         <SevenToEight
                           resource={fetchTask(
-                            `http://127.0.0.1:8000/part1/strangeSentence?category=${path[2]}&level=${path[3]}&pattern=${pick}`
+                            `http://127.0.0.1:8000/part2/strangeSentence?category=${path[2]}&level=${path[3]}&pattern=${pick}`
                           )}
                           solve={solve}
                         />
