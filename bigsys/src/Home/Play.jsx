@@ -143,24 +143,6 @@ export const Play = () => {
             <></>
           )}
         </div>
-
-        {/* {level === 0 ? (
-          <></>
-        ) : (
-          <div id="back" onClick={() => setLevel((level -= 3))}>
-            <GrFormPreviousLink size={40} color="gray" />
-            <p>이전</p>
-          </div>
-        )}
-
-        {level === 10 ? (
-          <></>
-        ) : (
-          <div id="go" onClick={() => setLevel((level += 3))}>
-            <GrFormNextLink size={40} color="gray" />
-            <p>다음</p>
-          </div>
-        )} */}
       </div>
       <Footer />
     </>
