@@ -250,3 +250,53 @@ const FourToSix = (props) => {
     </div>
   );
 };
+
+const SevenToEight = ({ resource, solve }) => {
+  var data = resource.read();
+  console.log(data);
+
+  var first_choicePassage = data[0].task.choicePassage.map((e) => (
+    <div
+      className="news-selection"
+      onClick={() => {
+        solve(e.sentenceNo);
+      }}
+    >
+      {e.sentenceContent}
+    </div>
+  ));
+  var second_choicePassage = data[1].task.choicePassage.map((e) => (
+    <div
+      className="news-selection"
+      onClick={() => {
+        solve(e.sentenceNo);
+      }}
+    >
+      {e.sentenceContent}
+    </div>
+  ));
+
+  return (
+    <>
+      <p>제목 : {data[0].task.newsTitle}</p>
+      {first_choicePassage}
+      <p
+        onClick={() => {
+          solve(0);
+        }}
+      >
+        없음
+      </p>
+
+      <p>제목 : {data[1].task.newsTitle}</p>
+      {second_choicePassage}
+      <p
+        onClick={() => {
+          solve(0);
+        }}
+      >
+        없음
+      </p>
+    </>
+  );
+};
