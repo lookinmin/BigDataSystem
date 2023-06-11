@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
 import "./Home.css";
 import { FaTimes, FaRegCircle } from "react-icons/fa";
-import { GrFormPreviousLink } from "react-icons/gr";
+import { GrFormPreviousLink, GrFormNextLink } from "react-icons/gr";
 import { Suspense } from "react";
 import Spinner from "react-bootstrap/esm/Spinner";
 import fetchTask from "../api/fetchTask";
@@ -12,13 +12,14 @@ import Button from "react-bootstrap/Button";
 export const Play = () => {
   const path = window.location.pathname.split("/");
   console.log(path);
-  var [level, setLevel] = useState(9);
+  var [level, setLevel] = useState(0);
   var [subC, setSubC] = useState(0);
   var [pick, setPick] = useState("ALL");
   var [answer, setAnswer] = useState([]);
 
   const solve = (e) => {
     setAnswer(answer.concat(e));
+    setLevel((level += 3));
   };
 
   const getSub = (e) => {
@@ -60,12 +61,12 @@ export const Play = () => {
             <>
               {level < 3 ? (
                 <>
-                  <h2>STAGE {level + 1}</h2>
+                  <h2>STAGE 1</h2>
                   <p>해당 기사의 제목이 진짜 제목인지 아닌지 맞춰주세요.</p>
                 </>
               ) : (
                 <>
-                  <h2>STAGE {level}</h2>
+                  <h2>STAGE {~~(level / 3) + 1}</h2>
                   <p style={{ marginBottom: "15px" }}>선택 유형 : {pick}</p>
                   {(level >= 4 && level) <= 6 ? (
                     <>
@@ -143,14 +144,23 @@ export const Play = () => {
           )}
         </div>
 
-        {level === 0 ? (
+        {/* {level === 0 ? (
           <></>
         ) : (
-          <div id="back" onClick={() => setLevel((level -= 1))}>
+          <div id="back" onClick={() => setLevel((level -= 3))}>
             <GrFormPreviousLink size={40} color="gray" />
             <p>이전</p>
           </div>
         )}
+
+        {level === 10 ? (
+          <></>
+        ) : (
+          <div id="go" onClick={() => setLevel((level += 3))}>
+            <GrFormNextLink size={40} color="gray" />
+            <p>다음</p>
+          </div>
+        )} */}
       </div>
       <Footer />
     </>
@@ -162,19 +172,22 @@ const OneToThree = ({ resource, solve }) => {
   const [tempAnswer, setTempAnswer] = useState([0, 0, 0]);
 
   const checkAns = (myAns, ans) => {
+    console.log(myAns, ans);
     var realAns = [0, 0, 0];
     for (let index = 0; index < 3; index++) {
-      if (myAns[index] == ans[index]) {
+      if (myAns[index] == ans[index].answer) {
         realAns[index] = 1;
       }
     }
+    console.log(realAns);
+    solve(realAns);
     return realAns;
   };
 
-  console.log(data);
   return (
     <>
       <div className="news-title">
+        {tempAnswer}
         <p>
           <span>문제 1. </span> 제목 : {data[0].task.labeledDataInfo.newTitle}
         </p>
@@ -185,8 +198,15 @@ const OneToThree = ({ resource, solve }) => {
       <div className="OX">
         <div
           className="O"
+          style={
+            tempAnswer[0] != 0
+              ? tempAnswer[0] == 1
+                ? { backgroundColor: "rgb(235, 255, 235)" }
+                : {}
+              : {}
+          }
           onClick={() => {
-            var ansCopy = tempAnswer;
+            var ansCopy = [...tempAnswer];
             ansCopy[0] = 1;
             setTempAnswer(ansCopy);
           }}
@@ -196,8 +216,15 @@ const OneToThree = ({ resource, solve }) => {
         </div>
         <div
           className="X"
+          style={
+            tempAnswer[0] != 0
+              ? tempAnswer[0] == 2
+                ? { backgroundColor: "rgb(255, 229, 229)" }
+                : {}
+              : {}
+          }
           onClick={() => {
-            var ansCopy = tempAnswer;
+            var ansCopy = [...tempAnswer];
             ansCopy[0] = 2;
             setTempAnswer(ansCopy);
           }}
@@ -217,8 +244,15 @@ const OneToThree = ({ resource, solve }) => {
       <div className="OX">
         <div
           className="O"
+          style={
+            tempAnswer[1] != 0
+              ? tempAnswer[1] == 1
+                ? { backgroundColor: "rgb(235, 255, 235)" }
+                : {}
+              : {}
+          }
           onClick={() => {
-            var ansCopy = tempAnswer;
+            var ansCopy = [...tempAnswer];
             ansCopy[1] = 1;
             setTempAnswer(ansCopy);
           }}
@@ -228,8 +262,15 @@ const OneToThree = ({ resource, solve }) => {
         </div>
         <div
           className="X"
+          style={
+            tempAnswer[1] != 0
+              ? tempAnswer[1] == 2
+                ? { backgroundColor: "rgb(255, 229, 229)" }
+                : {}
+              : {}
+          }
           onClick={() => {
-            var ansCopy = tempAnswer;
+            var ansCopy = [...tempAnswer];
             ansCopy[1] = 2;
             setTempAnswer(ansCopy);
           }}
@@ -249,8 +290,15 @@ const OneToThree = ({ resource, solve }) => {
       <div className="OX">
         <div
           className="O"
+          style={
+            tempAnswer[2] != 0
+              ? tempAnswer[2] == 1
+                ? { backgroundColor: "rgb(235, 255, 235)" }
+                : {}
+              : {}
+          }
           onClick={() => {
-            var ansCopy = tempAnswer;
+            var ansCopy = [...tempAnswer];
             ansCopy[2] = 1;
             setTempAnswer(ansCopy);
           }}
@@ -260,16 +308,26 @@ const OneToThree = ({ resource, solve }) => {
         </div>
         <div
           className="X"
+          style={
+            tempAnswer[2] != 0
+              ? tempAnswer[2] == 2
+                ? { backgroundColor: "rgb(255, 229, 229)" }
+                : {}
+              : {}
+          }
           onClick={() => {
-            var ansCopy = tempAnswer;
+            var ansCopy = [...tempAnswer];
             ansCopy[2] = 2;
-            console.log(ansCopy);
             setTempAnswer(ansCopy);
           }}
         >
           <FaTimes size={64} color="red" />
           <p>가짜 제목</p>
         </div>
+      </div>
+      <div id="go" onClick={() => checkAns(tempAnswer, data)}>
+        <GrFormNextLink size={40} color="gray" />
+        <p>다음</p>
       </div>
     </>
   );
@@ -280,8 +338,6 @@ const FourToSix = ({ resource, solve }) => {
   var data = resource.read();
   console.log(data);
 
-  var [textD, setTextD] = useState(false);
-
   const sencence = (e, taskIdx) => (
     <p
       className="news-by"
@@ -289,18 +345,20 @@ const FourToSix = ({ resource, solve }) => {
       key={e.sentenceNo}
       onClick={(target) => {
         var ansCopy = [...tempAnswer];
-        var delIdx = ansCopy[taskIdx].indexOf(target.target.id);
-        if (delIdx != -1) {
-          delete ansCopy[taskIdx][delIdx];
+        if (ansCopy[taskIdx][target.target.id]) {
+          if (ansCopy[taskIdx][target.target.id] == true) {
+            ansCopy[taskIdx][target.target.id] = false;
+          } else {
+            ansCopy[taskIdx][target.target.id] = true;
+          }
         } else {
-          ansCopy[taskIdx].push(target.target.id);
+          ansCopy[taskIdx][target.target.id] = true;
         }
-        setTextD(!textD);
         setTempAnswer(ansCopy);
         console.log(tempAnswer);
       }}
       style={
-        textD
+        tempAnswer[taskIdx][e.sentenceNo]
           ? { textDecoration: "underline", fontWeight: 600 }
           : { textDecoration: "none", fontWeight: 500 }
       }
@@ -308,6 +366,35 @@ const FourToSix = ({ resource, solve }) => {
       {e.sentenceContent}
     </p>
   );
+  const checkAns = (myAns, ans) => {
+    console.log(myAns, ans);
+    var realAns = [0, 0, 0];
+    for (let index = 0; index < 3; index++) {
+      var flag = false;
+      for (let i = 0; i < ans[index].answer.length; i++) {
+        if (myAns[index][ans[index].answer[i]]) {
+          myAns[index][ans[index].answer[i]] = undefined;
+        } else {
+          flag = true;
+          break;
+        }
+      }
+      if (flag) break;
+      for (let i = 0; i < myAns[index].length; i++) {
+        if (myAns[index][i]) {
+          flag = true;
+          break;
+        }
+      }
+      if (!flag) {
+        realAns[index] = 1;
+      }
+    }
+    console.log(realAns);
+    solve(realAns);
+    return realAns;
+  };
+
   return (
     <>
       {data.map((e, idx) => (
@@ -316,6 +403,10 @@ const FourToSix = ({ resource, solve }) => {
           {e.task.sourceDataInfo.sentenceInfo.map((val) => sencence(val, idx))}
         </div>
       ))}
+      <div id="go" onClick={() => checkAns(tempAnswer, data)}>
+        <GrFormNextLink size={40} color="gray" />
+        <p>다음</p>
+      </div>
     </>
   );
 };

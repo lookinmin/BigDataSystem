@@ -58,9 +58,9 @@ def read_ox_task(category:str, level:str, keyword=None):
     coll=conn_COLL()
     return_data=[]
     for i in coll.aggregate(X_query):
-        return_data.append({"answer":"X","task":i})
+        return_data.append({"answer":2,"task":i})
     for i in coll.aggregate(O_query):
-        return_data.append({"answer":"O","task":i})
+        return_data.append({"answer":1,"task":i})
 
     return return_data
 

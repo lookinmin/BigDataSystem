@@ -335,12 +335,24 @@
 #back {
   position: fixed;
   top: 80px;
-  right: 50px;
+  right: 100px;
   cursor: pointer;
   color: gray;
 }
 
 #back:hover {
+  color: black;
+}
+
+#go {
+  position: fixed;
+  top: 80px;
+  right: 50px;
+  cursor: pointer;
+  color: gray;
+}
+
+#go:hover {
   color: black;
 }
 

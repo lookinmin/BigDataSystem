@@ -16,8 +16,8 @@ def read_statistics():
     query1=[
     {
         '$sort': {
+            'sourceDataInfo.processLevel': 1,
             'sourceDataInfo.newsCategory': 1, 
-            'sourceDataInfo.processLevel': 1
         }
     }, {
         '$group': {
