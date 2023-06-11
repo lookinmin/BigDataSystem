@@ -24,7 +24,7 @@ def read_showResult_task(searchWord: str):
                 "_id": 0,
                 "sourceDataInfo.newsTitle": 1,
                 "sourceDataInfo.newsContent": 1,
-                "labeledDataInfo": 1,
+                "sourceDataInfo.useType": 1,
             }
         },
     ]
