@@ -1,0 +1,65 @@
+.graph {
+  display: flex;
+  flex-flow: column nowrap;
+  min-height: 67vh;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 80px;
+  font-family: "Pretendard-Regular";
+}
+
+.graph h3 {
+  font-weight: 600;
+}
+
+.chartBox {
+  margin-top: 100px;
+  width: 60%;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: flex-start;
+  padding-left: 50px;
+}
+
+#one {
+  height: 500px;
+}
+
+#two {
+  height: 500px;
+  margin-bottom: 50px;
+}
+
+#two .twobox {
+  height: 500px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.chart_desc {
+  display: grid;
+  column-gap: 1vw;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.dbox {
+  display: flex;
+  flex-flow: column nowrap;
+  padding-top: 50px;
+  text-align: start;
+}
+
+.dbox h5 {
+  font-weight: 600;
+  margin: 0 !important;
+  font-size: 18px;
+}
+
+.d1 {
+  display: flex;
+  flex-flow: row nowrap;
+  gap: 5px;
+  align-items: center;
+  padding-bottom: 20px;
+}
