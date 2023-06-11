@@ -130,6 +130,17 @@ export const Play = () => {
 const OneToThree = ({ resource, solve }) => {
   var data = resource.read();
   const [tempAnswer, setTempAnswer] = useState([0, 0, 0]);
+
+  const checkAns = (myAns, ans) => {
+    var realAns = [0, 0, 0];
+    for (let index = 0; index < 3; index++) {
+      if (myAns[index] == ans[index]) {
+        realAns[index] = 1;
+      }
+    }
+    return realAns;
+  };
+
   console.log(data);
   return (
     <>
