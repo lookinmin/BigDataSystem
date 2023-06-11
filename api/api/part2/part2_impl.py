@@ -71,9 +71,9 @@ def read_pattern_task(category: str, level: str):
         {
             "$project": {
                 "_id": 0,
-                "sourceDataInfo.processPattern": 1,
                 "sourceDataInfo.newsTitle": 1,
-                "labeledDataInfo.processSentenceInfo": 1,
+                "sourceDataInfo.newsContent": 1,
+                "labeledDataInfo": 1,
             }
         },
     ]
@@ -81,21 +81,12 @@ def read_pattern_task(category: str, level: str):
     coll = conn_COLL()
     return_data = []
     for i in coll.aggregate(query):
-        temp_answer = []
-        temp_answer_count = 0
-        for j in i.get("labeledDataInfo").get("processSentenceInfo"):
-            if j.get("subjectConsistencyYn") == "N":
-                temp_answer.append(j.get("sentenceContent"))
-                temp_answer_count += 1
         return_data.append(
             {
-                "answer_count": temp_answer_count,
-                "answer_sentence": temp_answer,
                 "task": {
+                    "processPattern": i.get("sourceDataInfo").get("processPattern"),
                     "newsTitle": i.get("sourceDataInfo").get("newsTitle"),
-                    "processSentenceInfo": i.get("labeledDataInfo")
-                    .get("processSentenceInfo")
-                    .get("sentenceContent"),
+                    "newsContent": i.get("sourceDataInfo").get("newsContent"),
                 },
             }
         )
