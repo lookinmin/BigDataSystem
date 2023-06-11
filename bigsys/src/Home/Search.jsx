@@ -11,6 +11,7 @@ import axios from "axios";
 export const Search = () => {
   var [title, setTitle] = useState("");
   var [content, setContent] = useState("");
+  var [answer, setAnswer] = useState(2);
   const onSearchHandler = (info) => {
     axios
       .get(`http://127.0.0.1:8000/search/showResult?searchWord=${info}`)
@@ -18,6 +19,7 @@ export const Search = () => {
         console.log(res.data);
         setTitle(res.data[0].task.newsTitle);
         setContent(res.data[0].task.newsContent);
+        setAnswer(res.data[0].answer_sentence);
       });
   };
 
@@ -30,17 +32,7 @@ export const Search = () => {
 
         <Result_list title={title} content={content} />
 
-        <div className="judge">
-          <p id="fix_t">위 기사는 진실된 기사일까요?</p>
-          <div className="boxss" id="right">
-            <p>맞다</p>
-            <FaRegCircle color="green" size={25} />
-          </div>
-          <div className="boxss" id="wrong">
-            <p>아니다</p>
-            <FaTimes color="red" size={25} />
-          </div>
-        </div>
+        <Judge answer={answer} />
       </div>
       <Footer />
     </>
@@ -79,6 +71,31 @@ const Result_list = (props) => {
       <h5>기사 제목 : {props.title}</h5>
 
       <p>{props.content}</p>
+    </div>
+  );
+};
+
+const Judge = (props) => {
+  const onJudgeHandler = (e) => {
+    var answer = props.answer;
+    if (answer === e) {
+      alert("정답!");
+    } else {
+      alert("오답!");
+    }
+  };
+
+  return (
+    <div className="judge">
+      <p id="fix_t">위 기사는 진실된 기사일까요?</p>
+      <div className="boxss" id="right" onClick={() => onJudgeHandler(1)}>
+        <p>맞다</p>
+        <FaRegCircle color="green" size={25} />
+      </div>
+      <div className="boxss" id="wrong" onClick={() => onJudgeHandler(0)}>
+        <p>아니다</p>
+        <FaTimes color="red" size={25} />
+      </div>
     </div>
   );
 };
