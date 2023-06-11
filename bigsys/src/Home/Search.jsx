@@ -9,15 +9,15 @@ import { FaTimes, FaRegCircle } from "react-icons/fa";
 import axios from "axios";
 
 export const Search = () => {
-  var [title, setTitle] = useState("개 시발");
-  var [content, setContent] = useState("술 절대 안먹음 진짜");
+  var [title, setTitle] = useState("");
+  var [content, setContent] = useState("");
   const onSearchHandler = (info) => {
     axios
-      .post("http://127.0.0.1:8000/?/", {
-        info: info,
-      })
+      .get(`http://127.0.0.1:8000/search/showResult?searchWord=${info}`)
       .then((res) => {
-        //데이터 들어오면 setTitle로 제목 ,setContent로 내용 넣으면 끝
+        console.log(res.data);
+        setTitle(res.data[0].task.newsTitle);
+        setContent(res.data[0].task.newsContent);
       });
   };
 
@@ -78,10 +78,7 @@ const Result_list = (props) => {
     <div className="result-list">
       <h5>기사 제목 : {props.title}</h5>
 
-      <p>
-        조민수씨, 향년 25세... 금주 외치다 사망했다 전해져...
-        {props.content}
-      </p>
+      <p>{props.content}</p>
     </div>
   );
 };
