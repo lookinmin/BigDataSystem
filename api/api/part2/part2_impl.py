@@ -25,7 +25,8 @@ def read_strangeSentence_task(category: str, level: str):
             "$project": {
                 "_id": 0,
                 "sourceDataInfo.newsTitle": 1,
-                "labeledDataInfo.processSentenceInfo": 1,
+                "sourceDataInfo.newsContent": 1,
+                "labeledDataInfo": 1,
             }
         },
     ]
@@ -34,20 +35,19 @@ def read_strangeSentence_task(category: str, level: str):
     return_data = []
     for i in coll.aggregate(query):
         temp_answer = []
-        temp_answer_count = 0
         for j in i.get("labeledDataInfo").get("processSentenceInfo"):
             if j.get("subjectConsistencyYn") == "N":
-                temp_answer.append(j.get("sentenceContent"))
-                temp_answer_count += 1
+                temp_answer.append(j)
         return_data.append(
             {
-                "answer_count": temp_answer_count,
+                "answer_count": len(temp_answer),
                 "answer_sentence": temp_answer,
                 "task": {
                     "newsTitle": i.get("sourceDataInfo").get("newsTitle"),
-                    "processSentenceInfo": i.get("labeledDataInfo")
-                    .get("processSentenceInfo")
-                    .get("sentenceContent"),
+                    "newsContent": i.get("sourceDataInfo").get("newsContent"),
+                    "choicePassage": i.get("labeledDataInfo").get(
+                        "processSentenceInfo"
+                    ),
                 },
             }
         )
