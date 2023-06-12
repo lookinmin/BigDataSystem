@@ -8,18 +8,23 @@ import { Suspense } from "react";
 import Spinner from "react-bootstrap/esm/Spinner";
 import fetchTask from "../api/fetchTask";
 import Button from "react-bootstrap/Button";
+import { useNavigate } from "react-router-dom";
 
 export const Play = () => {
   const path = window.location.pathname.split("/");
+  let navigate = useNavigate();
   console.log(path);
-  var [level, setLevel] = useState(9);
+  var [level, setLevel] = useState(0);
   var [subC, setSubC] = useState(0);
   var [pick, setPick] = useState("ALL");
   var [answer, setAnswer] = useState([]);
 
-  const solve = (e) => {
+  const solve = (e, plus_level) => {
     setAnswer(answer.concat(e));
-    setLevel((level += 3));
+    setLevel((level += plus_level));
+  };
+  const goHome = () => {
+    navigate("/");
   };
 
   const getSub = (e) => {
@@ -55,7 +60,7 @@ export const Play = () => {
       <Header />
       <div className="play">
         <div className="play-content">
-          {level === 3 ? (
+          {level === 3 || level >= 11 ? (
             <></>
           ) : (
             <>
@@ -96,7 +101,7 @@ export const Play = () => {
                         />
                       </Suspense>
                     </>
-                  ) : (
+                  ) : level < 11 ? (
                     <>
                       <p className="desc">
                         직접 생성된 이상한 문장들의 <b>생성패턴</b> 찾기
@@ -110,10 +115,60 @@ export const Play = () => {
                         />
                       </Suspense>
                     </>
+                  ) : (
+                    <></>
                   )}
                 </>
               )}
             </>
+          )}
+          {level >= 11 ? (
+            <div className="result">
+              <h2>GAME RESULT</h2>
+              <p>게임 결과</p>
+              <div className="res-body">
+                <div className="leftbox">
+                  <div className="heads">
+                    <p>No.</p>
+                    <p>정답여부</p>
+                  </div>
+                  {answer.map((e, idx) => (
+                    <div className="bodys">
+                      <p>{idx + 1}</p>
+                      <p>{e[0]}</p>
+                    </div>
+                  ))}
+                </div>
+                <div className="rightbox">
+                  <p>Part별 설명</p>
+                  <p>
+                    <b>No.1~3</b> : 기사 제목이 해당 기사 내용에 대해 진짜인지
+                    가짜인지 판별
+                  </p>
+                  <p>
+                    <b>No.4~6</b> : 기사의 거짓 제목을 만든 기조 문장 찾기
+                  </p>
+                  <p>
+                    <b>No.7~8</b> : 주어진 기사에서 자동생성, 비일관성을 가진
+                    이상한 문장 찾기
+                  </p>
+                  <p>
+                    <b>No.9~10</b> : 직접 생성된 문장들에 대해 어떤 패턴으로
+                    생성됬는지 찾기
+                  </p>
+                </div>
+              </div>
+
+              <Button
+                variant="outline-primary"
+                id="btn_end"
+                onClick={() => goHome()}
+              >
+                HOME으로
+              </Button>
+            </div>
+          ) : (
+            <></>
           )}
 
           {level < 3 ? (
@@ -155,14 +210,14 @@ const OneToThree = ({ resource, solve }) => {
 
   const checkAns = (myAns, ans) => {
     console.log(myAns, ans);
-    var realAns = [0, 0, 0];
+    var realAns = ["X", "X", "X"];
     for (let index = 0; index < 3; index++) {
       if (myAns[index] == ans[index].answer) {
-        realAns[index] = 1;
+        realAns[index] = "O";
       }
     }
     console.log(realAns);
-    solve(realAns);
+    solve(realAns, 3);
     return realAns;
   };
 
@@ -170,9 +225,7 @@ const OneToThree = ({ resource, solve }) => {
     <>
       <div className="news-title">
         {tempAnswer}
-        <p>
-          <span>문제 1. </span> 제목 : {data[0].task.labeledDataInfo.newTitle}
-        </p>
+        <p>제목 : {data[0].task.labeledDataInfo.newTitle}</p>
       </div>
       <div className="news-inner">
         {data[0].task.sourceDataInfo.newsContent}
@@ -216,9 +269,7 @@ const OneToThree = ({ resource, solve }) => {
         </div>
       </div>
       <div className="news-title">
-        <p>
-          <span>문제 2. </span>제목 : {data[1].task.labeledDataInfo.newTitle}
-        </p>
+        <p>제목 : {data[1].task.labeledDataInfo.newTitle}</p>
       </div>
       <div className="news-inner">
         {data[1].task.sourceDataInfo.newsContent}
@@ -262,9 +313,7 @@ const OneToThree = ({ resource, solve }) => {
         </div>
       </div>
       <div className="news-title">
-        <p>
-          <span>문제 3. </span>제목 : {data[2].task.labeledDataInfo.newTitle}
-        </p>
+        <p>제목 : {data[2].task.labeledDataInfo.newTitle}</p>
       </div>
       <div className="news-inner">
         {data[2].task.sourceDataInfo.newsContent}
@@ -350,7 +399,7 @@ const FourToSix = ({ resource, solve }) => {
   );
   const checkAns = (myAns, ans) => {
     console.log(myAns, ans);
-    var realAns = [0, 0, 0];
+    var realAns = ["X", "X", "X"];
     for (let index = 0; index < 3; index++) {
       var flag = false;
       for (let i = 0; i < ans[index].answer.length; i++) {
@@ -369,11 +418,11 @@ const FourToSix = ({ resource, solve }) => {
         }
       }
       if (!flag) {
-        realAns[index] = 1;
+        realAns[index] = "O";
       }
     }
     console.log(realAns);
-    solve(realAns);
+    solve(realAns, 3);
     return realAns;
   };
 
@@ -426,6 +475,7 @@ const SevenToEight = ({ resource, solve }) => {
       flag == true ? realAns.push("O") : realAns.push("X");
     }
     console.log(answer, myAns, realAns);
+    solve(realAns, 2);
     return realAns;
   };
 
@@ -522,6 +572,7 @@ const NineToTen = ({ resource, solve }) => {
       } else realAns.push("O");
     }
     console.log(realAns);
+    solve(realAns, 2);
     return realAns;
   };
 
