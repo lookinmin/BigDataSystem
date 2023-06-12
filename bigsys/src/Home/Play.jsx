@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useSyncExternalStore } from "react";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
 import "./Home.css";
@@ -12,7 +12,7 @@ import Button from "react-bootstrap/Button";
 export const Play = () => {
   const path = window.location.pathname.split("/");
   console.log(path);
-  var [level, setLevel] = useState(0);
+  var [level, setLevel] = useState(9);
   var [subC, setSubC] = useState(0);
   var [pick, setPick] = useState("ALL");
   var [answer, setAnswer] = useState([]);
@@ -395,29 +395,74 @@ const FourToSix = ({ resource, solve }) => {
 
 const SevenToEight = ({ resource, solve }) => {
   var data = resource.read();
-  const [tempAnswer, setTempAnswer] = useState([]);
+  var answer = [[], []];
+  for (var i = 0; i < 2; i++) {
+    for (var j = 0; j < data[i].answer_count; j++) {
+      answer[i].push(data[i].answer_sentence[j].sentenceNo);
+    }
+  }
+  const [tempAnswer, setTempAnswer] = useState([[], []]);
   console.log(data);
 
-  var first_choicePassage = data[0].task.choicePassage.map((e) => (
-    <div className="news-selection">
+  var checkAns = (realAnswer, myAns) => {
+    var realAns = [];
+
+    for (var i = 0; i < 2; i++) {
+      realAnswer[i].sort();
+      myAns[i].sort();
+      if (realAnswer[i].length !== myAns[i].length) {
+        realAns.push("X");
+        continue;
+      }
+      var flag = true;
+      for (var j = 0; j < myAns[i].length; j++) {
+        if (realAnswer[i][j] !== myAns[i][j]) {
+          flag = false;
+          break;
+        } else {
+          flag = true;
+        }
+      }
+      flag == true ? realAns.push("O") : realAns.push("X");
+    }
+    console.log(answer, myAns, realAns);
+    return realAns;
+  };
+
+  var first_choicePassage = data[0].task.choicePassage.map((e, idx) => (
+    <div className="news-selection" key={idx}>
       <input
         type="checkbox"
+        id={e.sentenceNo}
         onClick={() => {
-          var clickAnswer = e.sentenceNo;
-          setTempAnswer([...tempAnswer, clickAnswer]);
+          if (tempAnswer[0].includes(e.sentenceNo)) {
+            setTempAnswer([
+              tempAnswer[0].filter((answer) => answer !== e.sentenceNo),
+              tempAnswer[1],
+            ]);
+          } else {
+            setTempAnswer([[...tempAnswer[0], e.sentenceNo], tempAnswer[1]]);
+          }
         }}
       />
       <p style={{ margin: "0" }}>{e.sentenceContent}</p>
     </div>
   ));
 
-  var second_choicePassage = data[1].task.choicePassage.map((e) => (
-    <div className="news-selection">
+  var second_choicePassage = data[1].task.choicePassage.map((e, idx) => (
+    <div className="news-selection" key={idx}>
       <input
         type="checkbox"
+        id={e.sentenceNo}
         onClick={() => {
-          var clickAnswer = e.sentenceNo;
-          setTempAnswer([...tempAnswer, clickAnswer]);
+          if (tempAnswer[1].includes(e.sentenceNo)) {
+            setTempAnswer([
+              tempAnswer[0],
+              tempAnswer[1].filter((answer) => answer !== e.sentenceNo),
+            ]);
+          } else {
+            setTempAnswer([tempAnswer[0], [...tempAnswer[1], e.sentenceNo]]);
+          }
         }}
       />
       <p style={{ margin: "0" }}>{e.sentenceContent}</p>
@@ -430,36 +475,16 @@ const SevenToEight = ({ resource, solve }) => {
         <p className="news-title">제목 : {data[0].task.newsTitle}</p>
         <div className="news-inner">
           {first_choicePassage}
-          <div className="news-selection">
-            <input
-              type="checkbox"
-              onClick={() => {
-                var ansCopy = tempAnswer;
-                ansCopy[0] = -1;
-                setTempAnswer(ansCopy);
-              }}
-            />
-            <p style={{ margin: "0" }}>없음</p>
+          <div id="go" onClick={() => checkAns(answer, tempAnswer)}>
+            <GrFormNextLink size={40} color="gray" />
+            <p>다음</p>
           </div>
         </div>
       </div>
 
       <div className="news">
         <p className="news-title">제목 : {data[1].task.newsTitle}</p>
-        <div className="news-inner">
-          {second_choicePassage}
-          <div className="news-selection">
-            <input
-              type="checkbox"
-              onClick={() => {
-                var ansCopy = tempAnswer;
-                ansCopy[0] = -1;
-                setTempAnswer(ansCopy);
-              }}
-            />
-            <p style={{ margin: "0" }}>없음</p>
-          </div>
-        </div>
+        <div className="news-inner">{second_choicePassage}</div>
       </div>
     </>
   );
@@ -468,7 +493,37 @@ const SevenToEight = ({ resource, solve }) => {
 const NineToTen = ({ resource, solve }) => {
   var data = resource.read();
   const [tempAnswer, setTempAnswer] = useState([0, 0]);
+  const [radio, setRadio] = useState([0, 0]);
   console.log(data);
+
+  var answer = [];
+  for (var i = 0; i < 2; i++) {
+    answer.push(data[i].task.processPattern);
+  }
+
+  const handleClickRadioButton = (e) => {
+    setRadio(e.target.value);
+    if (e.target.name == "1") {
+      setRadio([e.target.value, radio[1]]);
+      console.log(e.target.value, radio);
+      setTempAnswer([e.target.value, tempAnswer[1]]);
+    } else if (e.target.name == "2") {
+      setRadio([radio[0], e.target.value]);
+      setTempAnswer([tempAnswer[0], e.target.value]);
+    }
+    console.log(radio, tempAnswer);
+  };
+
+  const checkAns = (realAnswer, myAns) => {
+    var realAns = [];
+    for (let i = 0; i < 2; i++) {
+      if (realAnswer[i] !== String(Number(myAns[i]) + 20)) {
+        realAns.push("X");
+      } else realAns.push("O");
+    }
+    console.log(realAns);
+    return realAns;
+  };
 
   return (
     <>
@@ -477,45 +532,41 @@ const NineToTen = ({ resource, solve }) => {
         <p className="news-inner">{data[0].task.newsContent}</p>
         <div className="news-selection">
           <input
-            type="checkbox"
-            onClick={() => {
-              var ansCopy = tempAnswer;
-              ansCopy[0] = 1;
-              setTempAnswer(ansCopy);
-            }}
+            type="radio"
+            name="1"
+            value="1"
+            checked={radio[0] === "1"}
+            onChange={handleClickRadioButton}
           />
           <p style={{ margin: "0" }}>21.상품 판매정보 노출 광고형</p>
         </div>
         <div className="news-selection">
           <input
-            type="checkbox"
-            onClick={() => {
-              var ansCopy = tempAnswer;
-              ansCopy[0] = 2;
-              setTempAnswer(ansCopy);
-            }}
+            type="radio"
+            name="1"
+            value="2"
+            checked={radio[0] === "2"}
+            onChange={handleClickRadioButton}
           />
           <p style={{ margin: "0" }}>22.부동산 판매정보 노출 광고형</p>
         </div>
         <div className="news-selection">
           <input
-            type="checkbox"
-            onClick={() => {
-              var ansCopy = tempAnswer;
-              ansCopy[0] = 3;
-              setTempAnswer(ansCopy);
-            }}
+            type="radio"
+            name="1"
+            value="3"
+            checked={radio[0] === "3"}
+            onChange={handleClickRadioButton}
           />
           <p style={{ margin: "0" }}>23.서비스 판매정보 노출 광고형</p>
         </div>
         <div className="news-selection">
           <input
-            type="checkbox"
-            onClick={() => {
-              var ansCopy = tempAnswer;
-              ansCopy[0] = 4;
-              setTempAnswer(ansCopy);
-            }}
+            type="radio"
+            name="1"
+            value="4"
+            checked={radio[0] === "4"}
+            onChange={handleClickRadioButton}
           />
           <p style={{ margin: "0" }}>24. 의도적 상황 왜곡/전환형</p>
         </div>
@@ -526,47 +577,47 @@ const NineToTen = ({ resource, solve }) => {
         <p className="news-inner">{data[1].task.newsContent}</p>
         <div className="news-selection">
           <input
-            type="checkbox"
-            onClick={() => {
-              var ansCopy = tempAnswer;
-              ansCopy[1] = 1;
-              setTempAnswer(ansCopy);
-            }}
+            type="radio"
+            name="2"
+            value="1"
+            checked={radio[1] === "1"}
+            onChange={handleClickRadioButton}
           />
           <p style={{ margin: "0" }}>21.상품 판매정보 노출 광고형</p>
         </div>
         <div className="news-selection">
           <input
-            type="checkbox"
-            onClick={() => {
-              var ansCopy = tempAnswer;
-              ansCopy[1] = 2;
-              setTempAnswer(ansCopy);
-            }}
+            type="radio"
+            name="2"
+            value="2"
+            checked={radio[1] === "2"}
+            onChange={handleClickRadioButton}
           />
           <p style={{ margin: "0" }}>22.부동산 판매정보 노출 광고형</p>
         </div>
         <div className="news-selection">
           <input
-            type="checkbox"
-            onClick={() => {
-              var ansCopy = tempAnswer;
-              ansCopy[1] = 3;
-              setTempAnswer(ansCopy);
-            }}
+            type="radio"
+            name="2"
+            value="3"
+            checked={radio[1] === "3"}
+            onChange={handleClickRadioButton}
           />
           <p style={{ margin: "0" }}>23.서비스 판매정보 노출 광고형</p>
         </div>
         <div className="news-selection">
           <input
-            type="checkbox"
-            onClick={() => {
-              var ansCopy = tempAnswer;
-              ansCopy[1] = 4;
-              setTempAnswer(ansCopy);
-            }}
+            type="radio"
+            name="2"
+            value="4"
+            checked={radio[1] === "4"}
+            onChange={handleClickRadioButton}
           />
           <p style={{ margin: "0" }}>24. 의도적 상황 왜곡/전환형</p>
+        </div>
+        <div id="go" onClick={() => checkAns(answer, tempAnswer)}>
+          <GrFormNextLink size={40} color="gray" />
+          <p>다음</p>
         </div>
       </div>
     </>

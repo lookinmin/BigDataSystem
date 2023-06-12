@@ -73,7 +73,7 @@ def read_pattern_task(category: str, level: str):
                 "_id": 0,
                 "sourceDataInfo.newsTitle": 1,
                 "sourceDataInfo.newsContent": 1,
-                "labeledDataInfo": 1,
+                "sourceDataInfo.processPattern": 1,
             }
         },
     ]
