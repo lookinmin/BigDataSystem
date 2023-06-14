@@ -15,7 +15,7 @@ def read_showResult_task(searchWord: str):
     query = [
         {
             "$match": {
-                "sourceDataInfo.newsContent": {"$regex": searchWord},
+                "$text":{"$search" :searchWord},
             }
         },
         {"$sample": {"size": 1}},
