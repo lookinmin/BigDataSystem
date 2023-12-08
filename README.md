@@ -51,12 +51,14 @@ Database : MongoDB <br/>
 
 #
 
-### Search Page
-<img src="./img/search.png" width="80%" align="center">
-
-#
-
 ### Chart Page
 <img src="./img/chart1.png" width="80%" align="center">
 #
 <img src="./img/chart2.png" width="80%" align="center">
+
+#
+
+### Search Page
+<img src="./img/search.png" width="60%" align="center">
+
+
