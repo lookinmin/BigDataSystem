@@ -35,5 +35,28 @@ Database : MongoDB <br/>
 
 ## Project 결과 화면
 ### Start Page
+<img src="./img/main.png" width="80%" align="center">
 
 #
+
+### Game Category 선택
+<img src="./img/game.png" width="80%" align="center">
+
+#
+
+### Game 내부 Stage
+<img src="./img/game_detail.png" width="80%" align="center">
+#
+<img src="./img/game_detail2.png" width="80%" align="center">
+
+#
+
+### Search Page
+<img src="./img/search.png" width="80%" align="center">
+
+#
+
+### Chart Page
+<img src="./img/chart1.png" width="80%" align="center">
+#
+<img src="./img/chart2.png" width="80%" align="center">
