@@ -33,6 +33,11 @@ Database : MongoDB <br/>
 
 #
 
+### 사용 Data
+<img src="./img/data.png" width="60%" align="center">
+
+#
+
 ## Project 결과 화면
 ### Start Page
 <img src="./img/main.png" width="80%" align="center">
