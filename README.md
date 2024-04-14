@@ -45,7 +45,7 @@ Database : MongoDB <br/>
 #
 
 ### Game Category 선택
-<img src="./img/game.png" width="80%" align="center">
+<img src="./img/gamepage.png" width="80%" align="center">
 
 #
 
